@@ -80,13 +80,13 @@ try:
       while i < source_file_size - 1:
         next_byte_value = binaryReader.unpack("B")
         if new_byte_value != next_byte_value:
-          fh.write("  %s  :   %s;\n" % (hex(i)[2:], hex(new_byte_value)[2:]))
+          fh.write(f"  {i:04X}  :   {new_byte_value:02X};\n")
         else:
           pos_start = i
           while new_byte_value == next_byte_value:
             next_byte_value = binaryReader.unpack("B")
             i += 1
-          fh.write("  [%s..%s]  :   %s;\n" % (hex(pos_start)[2:], hex(i)[2:], hex(new_byte_value)[2:]))
+          fh.write(f"  [{pos_start:04X}..{i:04X}]  :   {new_byte_value:02X};\n")
         new_byte_value = next_byte_value
         i += 1
       else:
