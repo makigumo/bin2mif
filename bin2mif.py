@@ -49,7 +49,7 @@ def footer():
 
 
 def print_usage():
-  print("Usage: %s <bin filee>" % sys.argv[0])
+  print("Usage: %s <bin file>" % sys.argv[0])
 
 
 if len(sys.argv) < 1:
