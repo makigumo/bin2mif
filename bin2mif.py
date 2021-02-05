@@ -72,8 +72,6 @@ try:
     fh.write("-- Converted from %s\n" % source_filename)
     fh.write(header(width_in_bits, source_file_size))
     pos_start = 0
-    current_byte_value = 0
-    current_byte_count = 0
     new_byte_value = binaryReader.unpack("B")
     i = 0
     try:
