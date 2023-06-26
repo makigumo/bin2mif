@@ -69,7 +69,7 @@ try:
   p = pathlib.Path(output_path).joinpath(source_filename + ".mif")
   os.makedirs(os.path.dirname(p), exist_ok=True)
   with p.open('w') as fh:
-    fh.write("-- Converted from %s\n" % source_filename)
+    fh.write(f"-- Converted from '{source_filename}'\n")
     fh.write(header(width_in_bits, source_file_size))
     pos_start = 0
     new_byte_value = binaryReader.unpack("B")
@@ -81,14 +81,16 @@ try:
           fh.write(f"  {i:04X}  :   {new_byte_value:02X};\n")
         else:
           pos_start = i
-          while new_byte_value == next_byte_value:
-            next_byte_value = binaryReader.unpack("B")
-            i += 1
-          fh.write(f"  [{pos_start:04X}..{i:04X}]  :   {new_byte_value:02X};\n")
+          try:
+            while new_byte_value == next_byte_value:
+              i += 1
+              next_byte_value = binaryReader.unpack("B")
+          finally:
+            fh.write(f"  [{pos_start:04X}..{i:04X}]  :   {new_byte_value:02X};\n")
         new_byte_value = next_byte_value
         i += 1
       else:
-        fh.write("  %s  :   %s;\n" % (hex(i)[2:], hex(new_byte_value)[2:]))
+        fh.write(f"  {i:04X}  :   {new_byte_value:02X};\n")
 
     except BinaryEOFException:
       pass
